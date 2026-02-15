@@ -26,7 +26,7 @@ apiTest.describe('herokuapp crud tests', () => {
     id = createResp.body!.bookingid
 
     //update booking with invalid auth token
-    await bookingApi.setAuth('5757474476')
+    bookingApi.setAuth('5757474476')
     const updateResp = await bookingApi.UpdateBooking(id, editedBookingPayload)
     expect(updateResp.status).toBe(403);
 
