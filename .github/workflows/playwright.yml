@@ -1,0 +1,43 @@
+name: Playwright API Tests
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  test:
+    name: Run Playwright API tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Not strictly required for APIRequestContext-only tests,
+      # but harmless and ensures Playwright is fully set up.
+      - name: Install Playwright browsers (with OS deps)
+        run: npx playwright install --with-deps
+
+      - name: Run smoke + crud specs
+        run: |
+          npx playwright test tests/herokuapp.smoke.spec.ts tests/herokuapp.crud.spec.ts
+
+      - name: Upload Playwright report (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
