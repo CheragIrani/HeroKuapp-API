@@ -32,7 +32,7 @@ jobs:
 
       - name: Run smoke + crud specs
         run: |
-          npx playwright test tests/herokuapp.smoke.spec.ts tests/herokuapp.crud.spec.ts
+          npx playwright test tests/smoke.spec.ts tests/crud.spec.ts
 
       - name: Upload Playwright report (always)
         if: always()
