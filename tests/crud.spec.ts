@@ -5,12 +5,10 @@ apiTest.describe('herokuapp crud tests', () => {
   let id: number
   let token: string
 
-  apiTest.beforeEach('Set Auth', async ({authApi, authPayload, bookingApi}) => {
+  apiTest.beforeEach('Set Token', async ({authApi, authPayload, bookingApi}) => {
     const authResp = await authApi.postAuth(authPayload);
     expect(authResp.status, authResp.text).toBe(200);
     token = authResp.body.token;
-    bookingApi.setAuth(token)
-
   })
 
   apiTest.afterEach('Delete booking', async ({ bookingApi}) => {
